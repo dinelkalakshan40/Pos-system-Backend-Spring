@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -53,5 +55,16 @@ public class CustomerServiceIMPL implements CustomerService {
 
     public String getLastCustomerIdFromDatabase() {
         return customerDao.findLastCustomerId();
+    }
+    @Override
+    public boolean updateCustomer(String id, CustomerDTO customerDTO) {
+        Optional<CustomerEntity> findNote = customerDao.findById(id);
+        if (findNote.isPresent()) {
+            findNote.get().setName(customerDTO.getName());
+            findNote.get().setPhone(customerDTO.getPhone());
+            findNote.get().setAddress(customerDTO.getAddress());
+            return true;
+        }
+        return false;
     }
 }

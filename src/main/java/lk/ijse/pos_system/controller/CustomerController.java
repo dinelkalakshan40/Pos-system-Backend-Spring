@@ -53,5 +53,18 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCustomer(@PathVariable ("id") String id,@RequestBody CustomerDTO customerDTO) {
+        try {
+            boolean isUpdated = customerService.updateCustomer(id,customerDTO);
+            if (isUpdated) {
+                return ResponseEntity.status(HttpStatus.CREATED).body("Customer Updated");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not Updated");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer");
+        }
+    }
 }
 
