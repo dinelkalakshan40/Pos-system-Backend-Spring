@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @Transactional
 public class CustomerServiceIMPL implements CustomerService {
@@ -19,20 +20,16 @@ public class CustomerServiceIMPL implements CustomerService {
     public Mapping CustomerMapping;
 
     @Override
-    public void saveCustomer(CustomerDTO customerDTO) {
-        try {
-            // Generate a new customer ID
+    public boolean saveCustomer(CustomerDTO customerDTO) {
 
+        try {
             // Convert DTO to Entity and save it using DAO
             CustomerEntity savedCustomer = customerDao.save(CustomerMapping.toCustomerEntity(customerDTO));
 
-            // Check if the customer was saved successfully
-            if (savedCustomer == null) {
-                throw new Exception("Failed to save the customer.");
-            }
+            // Return true if the customer was saved, false if not
+            return savedCustomer != null;
 
         } catch (Exception e) {
-            // Handle the exception or rethrow it as needed
             throw new RuntimeException("Error occurred while saving the customer: " + e.getMessage(), e);
         }
 
