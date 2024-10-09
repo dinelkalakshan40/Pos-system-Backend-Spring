@@ -19,6 +19,7 @@ public class CustomerServiceIMPL implements CustomerService {
     @Autowired
     public Mapping CustomerMapping;
 
+
     @Override
     public boolean saveCustomer(CustomerDTO customerDTO) {
 
@@ -33,5 +34,24 @@ public class CustomerServiceIMPL implements CustomerService {
             throw new RuntimeException("Error occurred while saving the customer: " + e.getMessage(), e);
         }
 
+    }
+
+    @Override
+    public String generateNewCustomerId() {
+        String lastCustomerId = getLastCustomerIdFromDatabase(); // Retrieve the last customer ID from the database
+        if (lastCustomerId != null && lastCustomerId.startsWith("CID")) {
+            int lastIdNumber = Integer.parseInt(lastCustomerId.substring(4)); // Extract the numeric part
+            lastIdNumber++; // Increment the numeric part
+            String newId = String.format("CID-%03d", lastIdNumber);
+
+
+            return newId; // Format the new ID as CID-001
+        } else {
+            return "CID-001"; // Start with CID-001 if no ID exists in the database
+        }
+    }
+
+    public String getLastCustomerIdFromDatabase() {
+        return customerDao.findLastCustomerId();
     }
 }

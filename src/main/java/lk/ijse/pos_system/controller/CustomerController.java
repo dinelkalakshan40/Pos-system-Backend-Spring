@@ -8,6 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/customers")
 @CrossOrigin(origins = "http://127.0.0.1:5501")
@@ -30,6 +33,24 @@ public class CustomerController {
         } catch (Exception e) {
             // Handle any exception and return a 500 Internal Server Error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error: " + e.getMessage());
+        }
+    }
+    @GetMapping("customerId")
+    public ResponseEntity<Map<String, String>> generateCustomerId(){
+        try {
+            String newCustomerId = customerService.generateNewCustomerId();
+
+            // Create a JSON object to return
+            Map<String, String> response = new HashMap<>();
+            response.put("customerId", newCustomerId);
+            response.put("message","Received customer ID: "+newCustomerId);
+
+            return ResponseEntity.ok(response); // Return 200 OK with the new customer ID as JSON
+        } catch (Exception e) {
+            // Return 500 Internal Server Error if any exception occurs
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error generating customer ID: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 }
