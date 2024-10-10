@@ -85,5 +85,23 @@ public class CustomerController {
     public List<CustomerDTO> getAllCustomers(){
         return customerService.getAllCustomers();
     }
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getCustomerById(@PathVariable("id") String id) {
+        try {
+            // Fetch the customer from the service layer
+            CustomerDTO customer = customerService.getCustomerById(id);
+
+            if (customer != null) {
+                // Return customer details with 200 OK status
+                return ResponseEntity.ok(customer);
+            } else {
+                // If customer is not found, return 404 Not Found
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer ID not found in the database.");
+            }
+        } catch (Exception e) {
+            // Return 500 Internal Server Error in case of any exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving customer: " + e.getMessage());
+        }
+    }
 }
 
