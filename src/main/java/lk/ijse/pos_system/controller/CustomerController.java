@@ -85,11 +85,13 @@ public class CustomerController {
     public List<CustomerDTO> getAllCustomers(){
         return customerService.getAllCustomers();
     }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCustomerById(@PathVariable("id") String id) {
         try {
             // Fetch the customer from the service layer
-            CustomerDTO customer = customerService.getCustomerById(id);
+            String standardizedId = id.toUpperCase();
+            CustomerDTO customer = customerService.getCustomerById(standardizedId);
 
             if (customer != null) {
                 // Return customer details with 200 OK status
