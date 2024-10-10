@@ -6,4 +6,6 @@ public interface CustomerService {
     boolean saveCustomer(CustomerDTO customerDTO);
     String generateNewCustomerId();
     boolean updateCustomer(String id,CustomerDTO customerDTO);
+
+    boolean deleteCustomer(String id);
 }

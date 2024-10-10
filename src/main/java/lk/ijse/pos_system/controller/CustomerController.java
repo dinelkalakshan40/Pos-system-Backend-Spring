@@ -66,5 +66,18 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer");
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String>delete(@PathVariable ("id") String id){
+        try {
+            boolean isUpdated = customerService.deleteCustomer(id);
+            if (isUpdated) {
+                return ResponseEntity.status(HttpStatus.CREATED).body("Customer Deleted");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not Deleted");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error:");
+        }
+    }
 }
 

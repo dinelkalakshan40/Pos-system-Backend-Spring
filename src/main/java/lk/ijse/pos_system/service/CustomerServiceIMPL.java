@@ -67,4 +67,14 @@ public class CustomerServiceIMPL implements CustomerService {
         }
         return false;
     }
+    @Override
+    public boolean deleteCustomer(String id){
+        Optional<CustomerEntity> foundCustomer = customerDao.findById(id);
+        if(foundCustomer.isPresent()){
+            customerDao.delete(foundCustomer.get());
+            return true;
+
+        }
+        return false;
+    }
 }
