@@ -1,9 +1,9 @@
-package lk.ijse.pos_system.service;
+package lk.ijse.pos_system.service.impl;
 
 import lk.ijse.pos_system.dao.CustomerDao;
 import lk.ijse.pos_system.dto.CustomerDTO;
 import lk.ijse.pos_system.entity.CustomerEntity;
-import lk.ijse.pos_system.util.AppUtil;
+import lk.ijse.pos_system.service.CustomerService;
 import lk.ijse.pos_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service

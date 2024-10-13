@@ -2,6 +2,9 @@ package lk.ijse.pos_system.controller;
 
 import lk.ijse.pos_system.dto.CustomerDTO;
 import lk.ijse.pos_system.service.CustomerService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +18,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/v1/customers")
 @CrossOrigin(origins = "http://127.0.0.1:5501")
+
 public class CustomerController {
+
     @Autowired
     private CustomerService customerService;
 
@@ -24,6 +29,7 @@ public class CustomerController {
         try {
             // Convert DTO to Entity and save it using service
             boolean isSaved = customerService.saveCustomer(customerDTO);
+
 
             if (isSaved) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Customer saved");
@@ -36,15 +42,16 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error: " + e.getMessage());
         }
     }
+
     @GetMapping("customerId")
-    public ResponseEntity<Map<String, String>> generateCustomerId(){
+    public ResponseEntity<Map<String, String>> generateCustomerId() {
         try {
             String newCustomerId = customerService.generateNewCustomerId();
 
             // Create a JSON object to return
             Map<String, String> response = new HashMap<>();
             response.put("customerId", newCustomerId);
-            response.put("message","Received customer ID: "+newCustomerId);
+            response.put("message", "Received customer ID: " + newCustomerId);
 
             return ResponseEntity.ok(response); // Return 200 OK with the new customer ID as JSON
         } catch (Exception e) {
@@ -54,10 +61,11 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCustomer(@PathVariable ("id") String id,@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<String> updateCustomer(@PathVariable("id") String id, @RequestBody CustomerDTO customerDTO) {
         try {
-            boolean isUpdated = customerService.updateCustomer(id,customerDTO);
+            boolean isUpdated = customerService.updateCustomer(id, customerDTO);
             if (isUpdated) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Customer Updated");
             } else {
@@ -67,8 +75,9 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer");
         }
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String>delete(@PathVariable ("id") String id){
+    public ResponseEntity<String> delete(@PathVariable("id") String id) {
         try {
             boolean isUpdated = customerService.deleteCustomer(id);
             if (isUpdated) {
@@ -82,7 +91,7 @@ public class CustomerController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CustomerDTO> getAllCustomers(){
+    public List<CustomerDTO> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
