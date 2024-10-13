@@ -69,5 +69,18 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer");
         }
     }
+    @DeleteMapping("/{itemID}")
+    public ResponseEntity<String> delete(@PathVariable("itemID") String itemID) {
+        try {
+            boolean isUpdated = itemService.deleteItem(itemID);
+            if (isUpdated) {
+                return ResponseEntity.status(HttpStatus.CREATED).body("Item Deleted");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item not Deleted");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error:");
+        }
+    }
 
 }

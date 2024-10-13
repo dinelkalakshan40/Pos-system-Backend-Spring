@@ -63,5 +63,15 @@ public class ItemServiceIMPL implements ItemService {
         }
         return false;
     }
+    @Override
+    public boolean deleteItem(String itemID){
+        Optional<ItemEntity> foundItem = itemDao.findById(itemID);
+        if(foundItem.isPresent()){
+            itemDao.delete(foundItem.get());
+            return true;
+
+        }
+        return false;
+    }
 
 }
