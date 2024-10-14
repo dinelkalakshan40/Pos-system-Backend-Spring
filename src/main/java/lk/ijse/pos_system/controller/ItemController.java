@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -80,6 +81,29 @@ public class ItemController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error:");
+        }
+    }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ItemDTO> getAllItems() {
+        return itemService.getAllItems();
+    }
+    @GetMapping(value = "/{itemID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getCustomerById(@PathVariable("itemID") String itemID) {
+        try {
+            // Fetch the customer from the service layer
+            String standardizedId = itemID.toUpperCase();
+            ItemDTO item = itemService.getItemById(standardizedId);
+
+            if (item != null) {
+                // Return customer details with 200 OK status
+                return ResponseEntity.ok(item);
+            } else {
+                // If customer is not found, return 404 Not Found
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item ID not found in the database.");
+            }
+        } catch (Exception e) {
+            // Return 500 Internal Server Error in case of any exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving item: " + e.getMessage());
         }
     }
 

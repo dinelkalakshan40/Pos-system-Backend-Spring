@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,6 +73,26 @@ public class ItemServiceIMPL implements ItemService {
 
         }
         return false;
+    }
+    @Override
+    public List<ItemDTO> getAllItems() {
+        return ItemMapping.asItemDTOList( itemDao.findAll());
+    }
+    @Override
+    public ItemDTO getItemById(String itemID) {
+        Optional<ItemEntity> item = itemDao.findById(itemID);
+
+        // If the customer is found, return the DTO; otherwise, return null
+        return item.map(this::convertToItemDTO).orElse(null);
+    }
+
+    private ItemDTO convertToItemDTO(ItemEntity entity) {
+        ItemDTO dto = new ItemDTO();
+        dto.setItemID(entity.getItemID());
+        dto.setItemName(entity.getItemName());
+        dto.setItemPrice(entity.getItemPrice());
+        dto.setItemQty(entity.getItemQty());
+        return dto;
     }
 
 }
