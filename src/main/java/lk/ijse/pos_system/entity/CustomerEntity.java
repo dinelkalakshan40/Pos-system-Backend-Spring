@@ -2,12 +2,14 @@ package lk.ijse.pos_system.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -20,4 +22,8 @@ public class CustomerEntity implements Serializable {
     private String name;
     private String phone;
     private String address;
+
+    @OneToMany(mappedBy = "customer")
+    private List<OrderEntity> orders;
+
 }
