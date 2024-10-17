@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +21,10 @@ public class OrderEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private CustomerEntity customer;
+    private String customerName;
+    private double subTotal;
+    private double discount;
+    private double netTotal;
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetailEntity> orderDetails;
 }
