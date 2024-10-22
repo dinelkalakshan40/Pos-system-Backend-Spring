@@ -1,9 +1,6 @@
 package lk.ijse.pos_system.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +20,7 @@ public class ItemEntity implements Serializable {
     private double itemPrice;
     private int itemQty;
     @OneToMany(mappedBy = "item")
-    private List<OrderDetailEntity> orderDetails;
+    private List<OrderDetailEntity> orderDetailEntities;
+
 
 }

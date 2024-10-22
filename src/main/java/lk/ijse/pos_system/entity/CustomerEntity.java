@@ -22,8 +22,4 @@ public class CustomerEntity implements Serializable {
     private String name;
     private String phone;
     private String address;
-
-    @OneToMany(mappedBy = "customer")
-    private List<OrderEntity> orders;
-
 }

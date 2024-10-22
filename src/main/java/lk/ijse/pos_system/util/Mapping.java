@@ -2,11 +2,16 @@ package lk.ijse.pos_system.util;
 
 import lk.ijse.pos_system.dto.CustomerDTO;
 import lk.ijse.pos_system.dto.ItemDTO;
+import lk.ijse.pos_system.dto.OrderDTO;
+import lk.ijse.pos_system.dto.OrderDetailDTO;
 import lk.ijse.pos_system.entity.CustomerEntity;
 import lk.ijse.pos_system.entity.ItemEntity;
+import lk.ijse.pos_system.entity.OrderDetailEntity;
+import lk.ijse.pos_system.entity.OrderEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,5 +38,14 @@ public class Mapping {
     public List<ItemDTO> asItemDTOList(List<ItemEntity> itemEntities){
         return modelMapper.map(itemEntities, new TypeToken<List<ItemDTO>>() {}.getType());
     }
+    //Order mapping
+    public OrderEntity toOrderEntity(OrderDTO orderDTO){
+        return modelMapper.map(orderDTO, OrderEntity.class);
+    }
+    //OrderDetailMapping
+    public OrderDetailEntity toOrderDetailEntity(OrderDetailDTO orderDetailDTO){
+        return modelMapper.map(orderDetailDTO, OrderDetailEntity.class);
+    }
+
 
 }

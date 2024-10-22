@@ -15,16 +15,18 @@ import java.io.Serializable;
 @Table(name = "orderdetails")
 public class OrderDetailEntity implements Serializable {
     @Id
-    private String orderDetailId;
-    @ManyToOne
-    @JoinColumn(name = "itemID", referencedColumnName = "itemID")
-    private ItemEntity item;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String itemName;
-    private int orderQty;
-    private double unitPrice;
-    private double total;
-    @ManyToOne
-    @JoinColumn(name = "orderId",referencedColumnName = "orderId")
+    private String itemPrice;
+    private String orderQTY;
+    private String total;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
     private OrderEntity order;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "itemID",referencedColumnName = "itemID")
+    private ItemEntity item;
 
 }

@@ -1,32 +1,26 @@
-package lk.ijse.pos_system.entity;
+package lk.ijse.pos_system.dto;
 
-import jakarta.persistence.*;
+import lk.ijse.pos_system.entity.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "orders")
-public class OrderEntity implements Serializable {
-    @Id
+public class OrderDTO implements Serializable {
+
     private String orderId;
     private String date;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private CustomerEntity customer;
+    private CustomerDTO customer;
     private String customerName;
     private String customerAddress;
     private String customerPhone;
     private double netTotal;
     private double discount;
     private double subTotal;
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetailEntity> orderDetails;
+    private List<OrderDetailDTO> orderDetails;
 }

@@ -1,10 +1,17 @@
 package lk.ijse.pos_system.service.impl;
 
 import lk.ijse.pos_system.dao.CustomerDao;
+import lk.ijse.pos_system.dao.ItemDao;
 import lk.ijse.pos_system.dao.OrderDao;
 import lk.ijse.pos_system.dto.CustomerDTO;
+import lk.ijse.pos_system.dto.OrderDTO;
+import lk.ijse.pos_system.dto.OrderDetailDTO;
 import lk.ijse.pos_system.entity.CustomerEntity;
+import lk.ijse.pos_system.entity.ItemEntity;
+import lk.ijse.pos_system.entity.OrderDetailEntity;
+import lk.ijse.pos_system.entity.OrderEntity;
 import lk.ijse.pos_system.service.CustomerService;
+import lk.ijse.pos_system.service.OrderDetailService;
 import lk.ijse.pos_system.service.OrderService;
 import lk.ijse.pos_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +28,16 @@ public class OrderServiceIMPL implements OrderService {
     @Autowired
     public OrderDao orderDao;
     @Autowired
-    private CustomerService customerService;
+    public ItemDao itemDao;
     @Autowired
+    public OrderService orderService;
+
+
     public CustomerDao customerDao;
     @Autowired
     public Mapping customerMapping;
+    @Autowired
+    public Mapping mapping;
 
     @Override
     public String generateNewOrderId() {
@@ -43,5 +55,20 @@ public class OrderServiceIMPL implements OrderService {
 
     public String getlastOrderId() {
         return orderDao.findLastOrderId();
+    }
+    @Override
+    public void saveOrder(OrderDTO orderDTO) {
+        OrderEntity order=orderDao.save(mapping.toOrderEntity(orderDTO));
+        if (order==null){
+            throw new RuntimeException("Order Is not Saved");
+        }else {
+            for (OrderDetailDTO orderDetailDTO:orderDTO.getOrderDetails()){
+                orderDetailDTO.setId(orderDetailDTO.getId());
+                orderDetailDTO.setOrder(orderDTO);
+                orderService.s
+
+            }
+        }
+
     }
 }
